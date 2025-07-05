@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "nombre": "MARIO",
+        "pais": "Colombia"
+    },
+    {
+        "nombre": "HADER",
+        "pais": "Colombia"
+    }
+]

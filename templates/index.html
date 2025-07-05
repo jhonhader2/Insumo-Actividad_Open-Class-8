@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>App Registro de Personas API JSON</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet" />
 </head>
+
 <body>
 
     <h1>App de pruebas para el Registro de Personas (API JSON)</h1>
@@ -13,10 +19,10 @@
         <form method="post" action="/registrar">
             <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
             <br>
-            <select id="pais" name="pais" required>
+            <select id="pais" name="pais" class="select2-paises" required>
                 <option value="" disabled selected>Selecciona un país</option>
                 {% for country in countries %}
-                    <option value="{{ country }}">{{ country }}</option>
+                <option value="{{ country }}">{{ country }}</option>
                 {% endfor %}
             </select>
             <br>
@@ -47,5 +53,36 @@
         <a href="/descargar_csv" class="action-button" download>📥 Descargar CSV</a>
     </div>
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Select2 Spanish Language -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Inicializar Select2 en el select de países
+            $('.select2-paises').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Selecciona un país',
+                allowClear: true,
+                width: '100%',
+                language: 'es',
+                minimumInputLength: 1,
+                templateResult: function (data) {
+                    if (data.loading) return data.text;
+                    if (!data.id) return data.text;
+                    return $('<span>').text(data.text);
+                },
+                templateSelection: function (data) {
+                    if (!data.id) return data.text;
+                    return $('<span>').text(data.text);
+                }
+            });
+        });
+    </script>
+
 </body>
+
 </html>
