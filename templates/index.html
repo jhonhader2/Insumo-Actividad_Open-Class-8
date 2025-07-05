@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>App Registro de Personas API JSON</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>App de pruebas para el Registro de Personas (API JSON)</h1>
+
+    <div class="form-container">
+        <form method="post" action="/registrar">
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
+            <br>
+            <select id="pais" name="pais" required>
+                <option value="" disabled selected>Selecciona un país</option>
+                {% for country in countries %}
+                    <option value="{{ country }}">{{ country }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <input type="submit" value="Registrar">
+        </form>
+    </div>
+
+    <h2>Personas Registradas:</h2>
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>País</th>
+            <th>Acciones</th>
+        </tr>
+        {% for persona in personas %}
+        <tr>
+            <td>{{ persona.nombre }}</td>
+            <td>{{ persona.pais }}</td>
+            <td class="action-buttons">
+                <a href="/modificar/{{ loop.index0 }}" class="action-button">Modificar</a>
+                <a href="/eliminar/{{ loop.index0 }}" class="action-button">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="/descargar_csv" class="action-button" download>📥 Descargar CSV</a>
+    </div>
+
+</body>
+</html>

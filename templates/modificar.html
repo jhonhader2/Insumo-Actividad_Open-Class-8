@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Modificar Persona</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+</head>
+<body>
+    <h1>Modificar Persona</h1>
+    <form method="post">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="{{ persona.nombre }}" required>
+
+        <label for="pais">País:</label>
+        <select id="pais" name="pais" required>
+    {% for country in countries %}
+        <option value="{{ country }}" {% if country == persona.pais %}selected{% endif %}>{{ country }}</option>
+    {% endfor %}
+</select>
+
+
+        <input type="submit" value="Guardar Cambios">
+    </form>
+
+    
+</body>
+</html>

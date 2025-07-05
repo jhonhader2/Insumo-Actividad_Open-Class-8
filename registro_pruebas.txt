@@ -1,0 +1,30 @@
+
+===============================
+🧪 PRUEBA: Descargar CSV
+🕒 FECHA Y HORA: 2025-07-03 17:57:06
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Eliminar Persona
+🕒 FECHA Y HORA: 2025-07-03 17:57:07
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Cargar Página Principal
+🕒 FECHA Y HORA: 2025-07-03 17:57:07
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Modificar Persona
+🕒 FECHA Y HORA: 2025-07-03 17:57:07
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Registrar Persona
+🕒 FECHA Y HORA: 2025-07-03 17:57:08
+📄 RESULTADO: ✅ Éxito
+===============================
