@@ -1,28 +1,105 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modificar Persona</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet" />
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Modificar Persona</h1>
-    <form method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ persona.nombre }}" required>
+    <div class="container modificar-container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1><i class="fas fa-edit"></i> Modificar Persona</h1>
+            <p>Actualiza la información de la persona seleccionada</p>
+        </div>
 
-        <label for="pais">País:</label>
-        <select id="pais" name="pais" required>
-    {% for country in countries %}
-        <option value="{{ country }}" {% if country == persona.pais %}selected{% endif %}>{{ country }}</option>
-    {% endfor %}
-</select>
+        <!-- Person Info Card -->
+        <div class="person-info bounce-in">
+            <h3><i class="fas fa-user"></i> Información Actual</h3>
+            <p><strong>Nombre:</strong> {{ persona.nombre }} | <strong>País:</strong> {{ persona.pais }}</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card modificar-form-card slide-in">
+            <h2><i class="fas fa-user-edit"></i> Editar Información</h2>
+            <form method="post" id="modificarForm">
+                <div class="form-group modificar-form-group">
+                    <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ persona.nombre }}"
+                        placeholder="Ingresa el nuevo nombre" required>
+                </div>
+
+                <div class="form-group modificar-form-group">
+                    <label for="pais"><i class="fas fa-globe"></i> País</label>
+                    <select id="pais" name="pais" class="select2-paises modificar-select2" required>
+                        <option value="" disabled>Selecciona un país</option>
+                        {% for country in countries %}
+                        <option value="{{ country }}" {% if country==persona.pais %}selected{% endif %}>{{ country }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary modificar-btn">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                    <a href="/" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Back Button -->
+        <div style="text-align: center;">
+            <a href="/" class="back-button">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner"></i>
+            <p>Guardando cambios...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <!-- Select2 Spanish Language -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- JavaScript personalizado -->
+    <script src="{{ url_for('static', filename='js/sweetalert-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/form-validations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/crud-operations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 
-        <input type="submit" value="Guardar Cambios">
-    </form>
-
-    
 </body>
+
 </html>

@@ -3,85 +3,135 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App Registro de Personas API JSON</title>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <!-- Select2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"
         rel="stylesheet" />
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header fade-in">
+            <h1><i class="fas fa-users"></i> Registro de Personas</h1>
+            <p>Sistema de gestión y registro de personas con API JSON</p>
+        </div>
 
-    <h1>App de pruebas para el Registro de Personas (API JSON)</h1>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Form Card -->
+            <div class="form-card slide-in">
+                <h2><i class="fas fa-user-plus"></i> Nuevo Registro</h2>
+                <form method="post" action="/registrar" id="registroForm">
+                    <div class="form-group">
+                        <label for="nombre"><i class="fas fa-user"></i> Nombre</label>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre completo" required>
+                    </div>
 
-    <div class="form-container">
-        <form method="post" action="/registrar">
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre" required>
-            <br>
-            <select id="pais" name="pais" class="select2-paises" required>
-                <option value="" disabled selected>Selecciona un país</option>
-                {% for country in countries %}
-                <option value="{{ country }}">{{ country }}</option>
-                {% endfor %}
-            </select>
-            <br>
-            <input type="submit" value="Registrar">
-        </form>
+                    <div class="form-group">
+                        <label for="pais"><i class="fas fa-globe"></i> País</label>
+                        <select id="pais" name="pais" class="select2-paises" required>
+                            <option value="" disabled selected>Selecciona un país</option>
+                            {% for country in countries %}
+                            <option value="{{ country }}">{{ country }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Registrar Persona
+                    </button>
+                </form>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats slide-in">
+                <div class="stat-card">
+                    <div class="stat-number">{{ personas|length }}</div>
+                    <div class="stat-label">Personas Registradas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{ countries|length }}</div>
+                    <div class="stat-label">Países Disponibles</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="table-container fade-in">
+            <div class="table-header">
+                <h2><i class="fas fa-list"></i> Personas Registradas</h2>
+                <div class="download-section">
+                    <a href="/descargar_csv" class="btn download-btn" onclick="return confirmarDescarga(event)">
+                        <i class="fas fa-download"></i> Descargar CSV
+                    </a>
+                </div>
+            </div>
+
+            {% if personas %}
+            <table>
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user"></i> Nombre</th>
+                        <th><i class="fas fa-globe"></i> País</th>
+                        <th><i class="fas fa-cogs"></i> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for persona in personas %}
+                    <tr class="fade-in">
+                        <td><strong>{{ persona.nombre }}</strong></td>
+                        <td><i class="fas fa-flag"></i> {{ persona.pais }}</td>
+                        <td class="action-buttons">
+                            <a href="/modificar/{{ loop.index0 }}" class="action-button btn-warning">
+                                <i class="fas fa-edit"></i> Modificar
+                            </a>
+                            <button data-index="{{ loop.index0 }}" data-nombre="{{ persona.nombre }}"
+                                class="action-button btn-danger delete-btn">
+                                <i class="fas fa-trash"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <h3>No hay personas registradas</h3>
+                <p>Comienza agregando una nueva persona usando el formulario</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
 
-    <h2>Personas Registradas:</h2>
-    <table>
-        <tr>
-            <th>Nombre</th>
-            <th>País</th>
-            <th>Acciones</th>
-        </tr>
-        {% for persona in personas %}
-        <tr>
-            <td>{{ persona.nombre }}</td>
-            <td>{{ persona.pais }}</td>
-            <td class="action-buttons">
-                <a href="/modificar/{{ loop.index0 }}" class="action-button">Modificar</a>
-                <a href="/eliminar/{{ loop.index0 }}" class="action-button">Eliminar</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="/descargar_csv" class="action-button" download>📥 Descargar CSV</a>
-    </div>
-
+    <!-- Scripts -->
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Select2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <!-- Select2 Spanish Language -->
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        $(document).ready(function () {
-            // Inicializar Select2 en el select de países
-            $('.select2-paises').select2({
-                theme: 'bootstrap-5',
-                placeholder: 'Selecciona un país',
-                allowClear: true,
-                width: '100%',
-                language: 'es',
-                minimumInputLength: 1,
-                templateResult: function (data) {
-                    if (data.loading) return data.text;
-                    if (!data.id) return data.text;
-                    return $('<span>').text(data.text);
-                },
-                templateSelection: function (data) {
-                    if (!data.id) return data.text;
-                    return $('<span>').text(data.text);
-                }
-            });
-        });
-    </script>
+    <!-- JavaScript personalizado -->
+    <script src="{{ url_for('static', filename='js/sweetalert-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/form-validations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/crud-operations.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 
 </body>
 

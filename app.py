@@ -51,7 +51,7 @@ def registrar():
     pais = request.form.get('pais')
     personas.append({'nombre': nombre, 'pais': pais})
     guardar_registros_en_json(personas)
-    return redirect('/')
+    return redirect('/?success=true')
 
 @app.route('/eliminar/<int:index>', methods=['GET']) # Decorador para la ruta de eliminación
 def eliminar(index):
@@ -60,7 +60,7 @@ def eliminar(index):
         pais = personas[index]['pais']
         del personas[index]
         guardar_registros_en_json(personas)
-    return redirect('/')
+    return redirect('/?success=true')
 
 @app.route('/modificar/<int:index>', methods=['GET', 'POST']) # Decorador para la ruta de modificación
 def modificar(index):
@@ -76,7 +76,7 @@ def modificar(index):
             pais = request.form.get('pais')
             personas[index] = {'nombre': nombre, 'pais': pais}
             guardar_registros_en_json(personas)
-        return redirect('/')
+        return redirect('/?success=true')
 
 # Ruta para cargar los registros en formato JSON
 @app.route('/personas_json')
@@ -106,6 +106,32 @@ def descargar_csv():
         mimetype='text/csv; charset=utf-8',
         headers={"Content-Disposition": "attachment;filename=personas.csv"}
     )
+
+# Nueva ruta para descarga CSV con respuesta JSON
+@app.route('/descargar_csv_json')
+def descargar_csv_json():
+    try:
+        si = StringIO()
+        writer = csv.writer(si)
+        writer.writerow(['Nombre', 'País'])
+
+        for persona in personas:
+            writer.writerow([persona['nombre'], persona['pais']])
+
+        output = '\ufeff' + si.getvalue()
+        si.close()
+
+        return jsonify({
+            'success': True,
+            'message': 'Archivo CSV generado correctamente',
+            'data': output,
+            'filename': 'personas.csv'
+        })
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'message': f'Error al generar CSV: {str(e)}'
+        }), 500
 
 
 if __name__ == '__main__':  # Comprobar si el script se ejecuta directamente

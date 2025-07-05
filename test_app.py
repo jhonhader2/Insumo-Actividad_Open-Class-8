@@ -14,7 +14,7 @@ class RegistroPersonasTestCase(unittest.TestCase):
     def test_index_carga_correcta(self):
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'App de pruebas para el Registro de Personas', response.data)
+        self.assertIn(b'App Registro de Personas API JSON', response.data)
 
     def test_registro_persona(self):
         data = {'nombre': 'Carlos', 'pais': 'Colombia'}

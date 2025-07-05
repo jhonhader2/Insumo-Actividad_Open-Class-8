@@ -1,10 +1,1 @@
-[
-    {
-        "nombre": "MARIO",
-        "pais": "Colombia"
-    },
-    {
-        "nombre": "HADER",
-        "pais": "Colombia"
-    }
-]
+[{"nombre": "HADER", "pais": "Colombia"}, {"nombre": "MARIO", "pais": "Colombia"}, {"nombre": "MARIO", "pais": "Colombia"}]
