@@ -92,6 +92,11 @@ class App {
                 if (typeof formatToUpperCase === 'function') {
                     formatToUpperCase(e.target);
                 }
+
+                // Validar duplicados en tiempo real para el campo nombre
+                if (input.id === 'nombre' && typeof validarNombreEnTiempoReal === 'function') {
+                    validarNombreEnTiempoReal(e.target);
+                }
             });
 
             // Prevenir envío con Enter
@@ -137,13 +142,21 @@ class App {
         });
     }
 
-    // Configurar mensajes de éxito
+    // Configurar mensajes de éxito y error
     setupSuccessMessages() {
         // Mostrar mensaje de éxito si hay parámetro en la URL
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('success') === 'true') {
             if (typeof showSuccess === 'function') {
                 showSuccess('¡Operación exitosa!', 'La operación se completó correctamente');
+            }
+        }
+
+        // Mostrar mensaje de error si hay parámetro de error en la URL
+        if (urlParams.get('error') === 'duplicado') {
+            const nombre = urlParams.get('nombre');
+            if (typeof showError === 'function') {
+                showError('Error de duplicado', `Ya existe una persona registrada con el nombre "${nombre}"`);
             }
         }
     }

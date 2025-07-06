@@ -91,8 +91,8 @@ const crudOps = new CrudOperations();
 async function registrarPersona(event) {
     event.preventDefault();
 
-    // Validar formulario
-    const validator = validateRegistrationForm();
+    // Validar formulario (ahora es asíncrono)
+    const validator = await validateRegistrationForm();
     if (validator.hasErrors()) {
         showValidationErrors(validator.getErrors());
         return false;

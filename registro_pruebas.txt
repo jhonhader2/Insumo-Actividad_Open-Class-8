@@ -28,3 +28,123 @@
 🕒 FECHA Y HORA: 2025-07-03 17:57:08
 📄 RESULTADO: ✅ Éxito
 ===============================
+
+===============================
+🧪 PRUEBA: Descargar CSV
+🕒 FECHA Y HORA: 2025-07-06 10:19:00
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Eliminar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:01
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Cargar Página Principal
+🕒 FECHA Y HORA: 2025-07-06 10:19:01
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Modificar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:01
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Registrar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:02
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Descargar CSV
+🕒 FECHA Y HORA: 2025-07-06 10:19:35
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Eliminar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:35
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Cargar Página Principal
+🕒 FECHA Y HORA: 2025-07-06 10:19:35
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Modificar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:36
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Registrar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:36
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Descargar CSV
+🕒 FECHA Y HORA: 2025-07-06 10:19:45
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Eliminar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:45
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Cargar Página Principal
+🕒 FECHA Y HORA: 2025-07-06 10:19:45
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Modificar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:46
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Registrar Persona
+🕒 FECHA Y HORA: 2025-07-06 10:19:46
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Descargar CSV
+🕒 FECHA Y HORA: 2025-07-06 11:02:46
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Eliminar Persona
+🕒 FECHA Y HORA: 2025-07-06 11:02:47
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Cargar Página Principal
+🕒 FECHA Y HORA: 2025-07-06 11:02:47
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Modificar Persona
+🕒 FECHA Y HORA: 2025-07-06 11:02:47
+📄 RESULTADO: ✅ Éxito
+===============================
+
+===============================
+🧪 PRUEBA: Registrar Persona
+🕒 FECHA Y HORA: 2025-07-06 11:02:47
+📄 RESULTADO: ✅ Éxito
+===============================

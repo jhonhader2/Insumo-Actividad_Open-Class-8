@@ -64,7 +64,7 @@ class FormValidator {
 }
 
 // Función para validar formulario de registro
-function validateRegistrationForm() {
+async function validateRegistrationForm() {
     const validator = new FormValidator();
 
     const nombre = document.getElementById('nombre').value;
@@ -77,6 +77,14 @@ function validateRegistrationForm() {
     // Validar longitud del nombre
     validator.validateMinLength(nombre, 2, 'Nombre');
     validator.validateMaxLength(nombre, 50, 'Nombre');
+
+    // Verificar duplicados si no hay otros errores
+    if (!validator.hasErrors()) {
+        const esDuplicado = await verificarDuplicado(nombre);
+        if (esDuplicado) {
+            validator.errors.push(`Ya existe una persona registrada con el nombre "${nombre.toUpperCase()}"`);
+        }
+    }
 
     return validator;
 }
@@ -142,4 +150,76 @@ function preventEnterSubmit(event) {
         event.preventDefault();
         return false;
     }
+}
+
+// Función para verificar duplicados en el servidor
+async function verificarDuplicado(nombre) {
+    try {
+        const response = await fetch(`/verificar_duplicado/${encodeURIComponent(nombre)}`);
+        if (response.ok) {
+            const data = await response.json();
+            return data.duplicado;
+        }
+        return false;
+    } catch (error) {
+        console.error('Error al verificar duplicado:', error);
+        return false;
+    }
+}
+
+// Función para validación en tiempo real del campo nombre
+let validationTimeout;
+async function validarNombreEnTiempoReal(input) {
+    const nombre = input.value.trim();
+
+    // Limpiar timeout anterior
+    if (validationTimeout) {
+        clearTimeout(validationTimeout);
+    }
+
+    // Si el campo está vacío o muy corto, no validar
+    if (nombre.length < 2) {
+        limpiarMensajeError(input);
+        return;
+    }
+
+    // Esperar 500ms antes de validar para evitar muchas peticiones
+    validationTimeout = setTimeout(async () => {
+        const esDuplicado = await verificarDuplicado(nombre);
+
+        if (esDuplicado) {
+            mostrarMensajeError(input, `Ya existe una persona con el nombre "${nombre.toUpperCase()}"`);
+        } else {
+            limpiarMensajeError(input);
+        }
+    }, 500);
+}
+
+// Función para mostrar mensaje de error en el campo
+function mostrarMensajeError(input, mensaje) {
+    // Limpiar mensajes anteriores
+    limpiarMensajeError(input);
+
+    // Crear elemento de error
+    const errorElement = document.createElement('div');
+    errorElement.className = 'error-message';
+    errorElement.style.color = '#dc3545';
+    errorElement.style.fontSize = '0.875rem';
+    errorElement.style.marginTop = '0.25rem';
+    errorElement.textContent = mensaje;
+
+    // Insertar después del campo
+    input.parentNode.appendChild(errorElement);
+
+    // Agregar clase de error al campo
+    input.style.borderColor = '#dc3545';
+}
+
+// Función para limpiar mensaje de error
+function limpiarMensajeError(input) {
+    const errorElement = input.parentNode.querySelector('.error-message');
+    if (errorElement) {
+        errorElement.remove();
+    }
+    input.style.borderColor = '';
 } 
