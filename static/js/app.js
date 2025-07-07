@@ -18,7 +18,6 @@ class App {
     // Inicializar la aplicación
     init() {
         if (this.isInitialized) {
-            console.warn('La aplicación ya está inicializada');
             return;
         }
 
@@ -40,7 +39,6 @@ class App {
             this.log('Aplicación inicializada correctamente');
 
         } catch (error) {
-            console.error('Error al inicializar la aplicación:', error);
             this.showError('Error de inicialización', 'No se pudo inicializar la aplicación correctamente');
         }
     }
@@ -179,20 +177,12 @@ class App {
     showError(title, message) {
         if (typeof showError === 'function') {
             showError(title, message);
-        } else {
-            console.error(title, message);
         }
     }
 
     // Función de logging
     log(message, data = null) {
-        if (this.config.debug) {
-            if (data) {
-                console.log(`[App] ${message}`, data);
-            } else {
-                console.log(`[App] ${message}`);
-            }
-        }
+        // Logging deshabilitado para producción
     }
 
     // Habilitar modo debug
@@ -341,37 +331,25 @@ class AnimationManager {
 
     // Configurar efectos de formulario
     setupFormEffects() {
-        // Mostrar loading al enviar formulario de modificación
-        const modificarForm = document.getElementById('modificarForm');
-        if (modificarForm) {
-            modificarForm.addEventListener('submit', function () {
-                const loadingOverlay = document.getElementById('loadingOverlay');
-                if (loadingOverlay) {
-                    loadingOverlay.classList.add('show');
-                }
-            });
-        }
+        // Los efectos de formulario se manejan con SweetAlert2
+        // No se necesita configuración adicional aquí
     }
 }
 
-// Clase para manejar loading
+// Clase para manejar loading (simplificada para SweetAlert2)
 class LoadingManager {
     constructor() {
-        this.overlay = document.getElementById('loadingOverlay');
+        // No se necesita overlay HTML
     }
 
     // Mostrar loading
     show() {
-        if (this.overlay) {
-            this.overlay.classList.add('show');
-        }
+        // El loading se maneja con SweetAlert2
     }
 
     // Ocultar loading
     hide() {
-        if (this.overlay) {
-            this.overlay.classList.remove('show');
-        }
+        // El loading se maneja con SweetAlert2
     }
 }
 

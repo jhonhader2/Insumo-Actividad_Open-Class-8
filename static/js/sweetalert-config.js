@@ -86,6 +86,11 @@ function showLoading(title = 'Procesando...', text = 'Por favor espera') {
     });
 }
 
+// Función para ocultar loading de SweetAlert2
+function hideLoading() {
+    Swal.close();
+}
+
 // Función para mostrar confirmación
 function showConfirm(title, text, options = {}) {
     // Asegurar que las opciones de confirmación estén siempre presentes
@@ -115,4 +120,13 @@ function showSuccess(title, text, options = {}) {
 // Función para mostrar información
 function showInfo(title, text, options = {}) {
     return createAlert('info', title, text, options);
-} 
+}
+
+// Exportar funciones para uso global
+window.showLoading = showLoading;
+window.hideLoading = hideLoading;
+window.showConfirm = showConfirm;
+window.showWarning = showWarning;
+window.showError = showError;
+window.showSuccess = showSuccess;
+window.showInfo = showInfo; 

@@ -1,6 +1,13 @@
 import unittest
 import os
+import sys
 from datetime import datetime
+from pathlib import Path
+
+# Agregar el directorio raíz al path para importar la aplicación
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
 from app import app, personas, guardar_registros_en_json
 import HtmlTestRunner
 from glob import glob
@@ -8,17 +15,17 @@ import webbrowser
 
 
 # Rutas
-LOG_TXT = 'registro_pruebas.txt'
-HTML_REPORT_DIR = 'reporte'
+LOG_TXT = project_root / 'registro_pruebas.txt'
+HTML_REPORT_DIR = project_root / 'reporte'
 
 # Función para registrar en .txt
 def registrar_en_txt(nombre_prueba, resultado):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     entrada = (
         f"\n===============================\n"
-        f"🧪 PRUEBA: {nombre_prueba}\n"
-        f"🕒 FECHA Y HORA: {timestamp}\n"
-        f"📄 RESULTADO: {resultado}\n"
+        f"PRUEBA: {nombre_prueba}\n"
+        f"FECHA Y HORA: {timestamp}\n"
+        f"RESULTADO: {resultado}\n"
         f"===============================\n"
     )
     with open(LOG_TXT, 'a', encoding='utf-8') as f:
@@ -29,7 +36,9 @@ class RegistroPersonasTestCase(unittest.TestCase):
 
     def setUp(self): # Configuración antes de cada prueba, self es una referencia a la instancia de la clase (convención de Python que hace referencia al propio objeto de prueba (es decir, a la instancia de la clase)
         self.client = app.test_client()
-        self.client.testing = True
+        # Configurar el contexto de la aplicación para las pruebas
+        self.app_context = app.app_context()
+        self.app_context.push()
         personas.clear()
         guardar_registros_en_json(personas)
 
@@ -85,27 +94,30 @@ class RegistroPersonasTestCase(unittest.TestCase):
     def tearDown(self):
         personas.clear()
         guardar_registros_en_json(personas)
+        # Limpiar el contexto de la aplicación
+        if hasattr(self, 'app_context'):
+            self.app_context.pop()
 
 # Mostrar ruta HTML generada
 def mostrar_ultima_ruta_html():
-    archivos = sorted(glob(f'{HTML_REPORT_DIR}/TestResults__*.html'), reverse=True)
+    archivos = sorted(glob(str(HTML_REPORT_DIR / 'TestResults__*.html')), reverse=True)
     if archivos:
         ruta_absoluta = os.path.abspath(archivos[0])
         enlace = f"file:///{ruta_absoluta.replace(os.sep, '/')}"
-        print(f"\n✅ Reporte HTML generado: {ruta_absoluta}")
-        print(f"🌐 Puedes abrirlo directamente en tu navegador:\n{enlace}")
+        print(f"\nReporte HTML generado: {ruta_absoluta}")
+        print(f"Puedes abrirlo directamente en tu navegador:\n{enlace}")
         # Opcional: abre automáticamente el navegador predeterminado
         webbrowser.open(enlace)
     else:
-        print("⚠️ No se encontró ningún reporte HTML.")
+        print("No se encontró ningún reporte HTML.")
 
 # Ejecutar pruebas
 if __name__ == '__main__':
     os.makedirs(HTML_REPORT_DIR, exist_ok=True) # Asegurarse de que el directorio existe
-    print("\n🧪 Ejecutando pruebas funcionales...") 
+    print("\nEjecutando pruebas funcionales...") 
 
     unittest.main( # Ejecutar las pruebas de manera que se genere un reporte HTML
-        testRunner=HtmlTestRunner.HTMLTestRunner(output=HTML_REPORT_DIR),
+        testRunner=HtmlTestRunner.HTMLTestRunner(output=str(HTML_REPORT_DIR)),
         verbosity=2
     )
 

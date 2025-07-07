@@ -162,7 +162,6 @@ async function verificarDuplicado(nombre) {
         }
         return false;
     } catch (error) {
-        console.error('Error al verificar duplicado:', error);
         return false;
     }
 }

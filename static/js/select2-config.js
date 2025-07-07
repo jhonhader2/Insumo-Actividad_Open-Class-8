@@ -64,19 +64,16 @@ class Select2Manager {
         // Evento al abrir
         $element.on('select2:open', function () {
             // Personalizar comportamiento al abrir
-            console.log('Select2 abierto');
         });
 
         // Evento al seleccionar
         $element.on('select2:select', function (e) {
             // Personalizar comportamiento al seleccionar
-            console.log('Opción seleccionada:', e.params.data);
         });
 
         // Evento al cambiar
         $element.on('select2:change', function (e) {
             // Personalizar comportamiento al cambiar
-            console.log('Valor cambiado:', e.target.value);
         });
     }
 
@@ -123,11 +120,7 @@ const select2Manager = new Select2Manager();
 // Función para inicializar Select2 en países
 function initSelect2Paises() {
     if ($.fn.select2) {
-        console.log('Inicializando Select2 para países...');
         select2Manager.initPaises('.select2-paises');
-        console.log('Select2 para países inicializado correctamente');
-    } else {
-        console.error('Select2 no está disponible');
     }
 }
 
@@ -196,6 +189,5 @@ const Select2Configs = {
 
 // Inicializar Select2 cuando el DOM esté listo
 $(document).ready(function () {
-    console.log('DOM listo, inicializando Select2...');
     initSelect2Paises();
 }); 

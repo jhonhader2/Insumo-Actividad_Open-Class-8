@@ -87,6 +87,11 @@ class CrudOperations {
 // Instancia global de operaciones CRUD
 const crudOps = new CrudOperations();
 
+// Función helper para ocultar el loading de SweetAlert2
+function hideAllLoading() {
+    Swal.close();
+}
+
 // Función para registrar nueva persona
 async function registrarPersona(event) {
     event.preventDefault();
@@ -113,19 +118,26 @@ async function registrarPersona(event) {
 
     if (result.isConfirmed) {
         // Mostrar loading
-        showLoading('Registrando...', 'Por favor espera');
+        const loadingAlert = showLoading('Registrando...', 'Por favor espera');
 
-        // Realizar operación
-        const response = await crudOps.create(data);
+        try {
+            // Realizar operación
+            const response = await crudOps.create(data);
 
-        if (response.success) {
-            showSuccess('¡Registro exitoso!', response.message);
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-                window.location.href = '/?success=true';
-            }, 1500);
-        } else {
-            showError('Error al registrar', response.message);
+            if (response.success) {
+                showSuccess('¡Registro exitoso!', response.message);
+                // Redirigir después de un breve delay
+                setTimeout(() => {
+                    window.location.href = '/?success=true';
+                }, 1500);
+            } else {
+                showError('Error al registrar', response.message);
+            }
+        } catch (error) {
+            showError('Error de conexión', 'No se pudo conectar con el servidor');
+        } finally {
+            // Ocultar todos los tipos de loading
+            hideAllLoading();
         }
     }
 
@@ -161,20 +173,27 @@ async function modificarPersona(event) {
     );
 
     if (result.isConfirmed) {
-        // Mostrar loading
-        showLoading('Guardando...', 'Por favor espera');
+        // Mostrar loading de SweetAlert2
+        const loadingAlert = showLoading('Guardando...', 'Por favor espera');
 
-        // Realizar operación
-        const response = await crudOps.update(index, data);
+        try {
+            // Realizar operación
+            const response = await crudOps.update(index, data);
 
-        if (response.success) {
-            showSuccess('¡Cambios guardados!', response.message);
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-                window.location.href = '/?success=true';
-            }, 1500);
-        } else {
-            showError('Error al guardar', response.message);
+            if (response.success) {
+                showSuccess('¡Cambios guardados!', response.message);
+                // Redirigir después de un breve delay
+                setTimeout(() => {
+                    window.location.href = '/?success=true';
+                }, 1500);
+            } else {
+                showError('Error al guardar', response.message);
+            }
+        } catch (error) {
+            showError('Error de conexión', 'No se pudo conectar con el servidor');
+        } finally {
+            // Ocultar todos los tipos de loading
+            hideAllLoading();
         }
     }
 
@@ -194,19 +213,26 @@ async function confirmarEliminacion(index, nombre) {
 
     if (result.isConfirmed) {
         // Mostrar loading
-        showLoading('Eliminando...', 'Por favor espera');
+        const loadingAlert = showLoading('Eliminando...', 'Por favor espera');
 
-        // Realizar operación
-        const response = await crudOps.delete(index);
+        try {
+            // Realizar operación
+            const response = await crudOps.delete(index);
 
-        if (response.success) {
-            showSuccess('¡Registro eliminado!', response.message);
-            // Redirigir después de un breve delay
-            setTimeout(() => {
-                window.location.href = '/?success=true';
-            }, 1500);
-        } else {
-            showError('Error al eliminar', response.message);
+            if (response.success) {
+                showSuccess('¡Registro eliminado!', response.message);
+                // Redirigir después de un breve delay
+                setTimeout(() => {
+                    window.location.href = '/?success=true';
+                }, 1500);
+            } else {
+                showError('Error al eliminar', response.message);
+            }
+        } catch (error) {
+            showError('Error de conexión', 'No se pudo conectar con el servidor');
+        } finally {
+            // Ocultar todos los tipos de loading
+            hideAllLoading();
         }
     }
 }
@@ -215,20 +241,49 @@ async function confirmarEliminacion(index, nombre) {
 function confirmarDescarga(event) {
     event.preventDefault();
 
+    // Detectar si es móvil
+    const isMobile = window.innerWidth <= 768;
+
+    const confirmMessage = isMobile
+        ? '¿Descargar CSV?\n\nEl archivo se descargará automáticamente.'
+        : '¿Descargar CSV?\n\nSe descargará un archivo con todos los registros';
+
     showConfirm(
         '¿Descargar CSV?',
-        'Se descargará un archivo con todos los registros'
+        confirmMessage,
+        {
+            confirmButtonText: 'Sí, descargar',
+            confirmButtonColor: '#28a745',
+            cancelButtonText: 'Cancelar'
+        }
     ).then((result) => {
         if (result.isConfirmed) {
-            showSuccess('¡Descarga iniciada!', 'El archivo CSV se está descargando', {
-                timer: 1500,
-                showConfirmButton: false
-            });
+            // Mostrar loading específico para descarga
+            const loadingAlert = showLoading(
+                'Preparando descarga...',
+                isMobile ? 'Generando archivo CSV...' : 'Preparando archivo para descarga...'
+            );
 
-            // Continuar con la descarga después de un breve delay
+            // Simular un pequeño delay para mejor UX
             setTimeout(() => {
-                window.location.href = '/descargar_csv';
-            }, 800);
+                // Ocultar loading
+                Swal.close();
+
+                // Mostrar mensaje de éxito
+                showSuccess(
+                    '¡Descarga iniciada!',
+                    isMobile ? 'El archivo CSV se está descargando' : 'El archivo CSV se está descargando',
+                    {
+                        timer: 2000,
+                        showConfirmButton: false
+                    }
+                );
+
+                // Iniciar descarga después de mostrar el mensaje
+                setTimeout(() => {
+                    window.location.href = '/descargar_csv';
+                }, 500);
+            }, 1000);
         }
     });
 
